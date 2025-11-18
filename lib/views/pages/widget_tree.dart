@@ -20,7 +20,7 @@ class WidgetTree extends StatelessWidget {
           onPressed: () {
             appState.toggleTheme();
           },
-          icon: Icon(Icons.dark_mode),
+          icon: Icon(appState.isDarkTheme ? Icons.dark_mode : Icons.light_mode),
         ),
         title: Text("My First App"),
         centerTitle: true,
