@@ -1,35 +1,27 @@
 import 'package:flutter/material.dart';
+import "package:provider/provider.dart";
+import 'package:todo1/data/app_state.dart';
 import 'package:todo1/views/pages/widget_tree.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(create: (_) => AppState(), child: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  int currentNumber = 1;
-  int currentIndex = 0;
-
-  Map<int, String> pageHash = {0: "HomePage", 1: "Profile", 2: "History"};
-
-  @override
   Widget build(BuildContext context) {
-    dynamic page = pageHash[currentIndex];
+    final appState = context.watch<AppState>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
-          brightness: Brightness.dark,
+          brightness: appState.isDarkTheme ? Brightness.dark : Brightness.light,
         ),
       ),
-      home: WidgetTree()
+      home: WidgetTree(),
     );
   }
 }

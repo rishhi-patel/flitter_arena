@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo1/data/notifiers.dart';
+import "package:provider/provider.dart";
+import 'package:todo1/data/app_state.dart';
 import 'package:todo1/views/pages/home_page.dart';
 import 'package:todo1/views/pages/profile_page.dart';
 import 'package:todo1/views/widgets/navbar_widget.dart';
@@ -11,19 +12,21 @@ class WidgetTree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: currentPageNotifier,
-      builder: (context, currentPage, child) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(onPressed: () {}, icon: Icon(Icons.dark_mode)),
-            title: Text("My First App"),
-            centerTitle: true,
-          ),
-          body: pages.elementAt(currentPage),
-          bottomNavigationBar: NavbarWidget(),
-        );
-      },
+    final appState = context.watch<AppState>();
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            appState.toggleTheme();
+          },
+          icon: Icon(Icons.dark_mode),
+        ),
+        title: Text("My First App"),
+        centerTitle: true,
+      ),
+      body: pages.elementAt(appState.currentPage),
+      bottomNavigationBar: NavbarWidget(),
     );
   }
 }
